@@ -5,7 +5,7 @@ body {
   &::after {
     width: 1px;
     right: 40px;
-    height: 100%;
+    height: 0;
     position: fixed;
     top: 0;
     display: inline-block;
@@ -13,6 +13,8 @@ body {
     background: $grey;
     z-index: 99;
     pointer-events: none;
+    transition: all 0.7s ease-in-out;
+    transition-delay: 0.3s;
   }
 }
 
@@ -22,19 +24,21 @@ body {
   top: 0;
   left: 0;
   z-index: 100;
-  border-bottom: 1px solid #6C6769;
+  //border-bottom: 1px solid #6C6769;
   background: rgba(255, 255, 255, 0);
   transition: all 0.4s ease-in-out;
 
   &::before {
     right: 40px;
     top: 0;
-    height: 100%;
+    height: 0;
     background: $grey;
     display: inline-block;
     content: '';
     position: absolute;
     width: 1px;
+    transition: all 0.3s ease-in-out;
+    transition-delay: 0.2s;
   }
 
   &.header-fixed {
@@ -47,7 +51,7 @@ body {
   }
 
   &::after {
-    width: 186px;
+    width: 0;
     height: 1px;
     background: $grey;
     display: inline-block;
@@ -56,11 +60,64 @@ body {
     position: absolute;
     top: 42px;
     right: 0;
+    transition: all 0.4s ease-in-out;
+    transition-delay: 0.3s;
   }
 
   .container {
     max-width: 100%;
     padding: 0 40px;
+    position: relative;
+    &::after {
+      width: 0;
+      height: 1px;
+      right: 0;
+      display: inline-block;
+      bottom: 0;
+      background: $grey;
+      content: '';
+      position: absolute;
+      transition: all 0.6s ease-in-out;
+      transition-delay: 0.4s;
+    }
+  }
+}
+.header {
+  .logo, .burger {
+    opacity: 0;
+    transition: all 0.6s ease-in-out;
+    transition-delay: 0.6s;
+  }
+
+
+}
+.header.anim {
+  opacity: 1;
+  &.done {
+    .container {
+      &::after {
+        width: 100%;
+      }
+    }
+    &::before {
+      height: 100%;
+    }
+    &::after {
+      width: 186px;
+    }
+    .logo, .burger {
+      opacity: 1;
+    }
+  }
+
+}
+html {
+  &.fp-enabled {
+    body {
+      &::after {
+        height: 100%;
+      }
+    }
   }
 }
 
@@ -114,6 +171,21 @@ body {
           line-height: 80px;
           text-transform: uppercase;
           transition: all 0.3s ease-in-out;
+          position: relative;
+          &::after {
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            z-index: 2;
+            background: $black;
+            display: inline-block;
+            content: '';
+            position: absolute;
+            right: 0;
+            transition: all 0.5s ease-in-out;
+            transition-delay: 0.5s;
+
+          }
 
           &:hover {
             color: #fff;
@@ -163,6 +235,17 @@ body {
   &.active {
     & ~ .hidden-menu {
       transform: translate(0, 0);
+      .menu {
+        ul {
+          li {
+            a {
+              &::after {
+                width: 0;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -633,7 +716,7 @@ body {
   .arr {
     width: 40px;
     height: 40px;
-    border: 1px solid #BBB4A7;
+    //border: 1px solid #BBB4A7;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -641,6 +724,20 @@ body {
     opacity: 1;
     margin-left: 0;
     margin-right: 20px;
+    position: relative;
+
+    svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      rect {
+        stroke-dashoffset: 0;
+        transition: all 0.6s ease-in-out;
+        stroke: #BBB4A7 !important;
+      }
+    }
 
     img {
       width: 13px;
@@ -660,7 +757,14 @@ body {
 
     .arr {
       border-color: #fff;
+      svg {
+        rect {
+          stroke: #fff !important;
+          stroke-dashoffset: 320;
+        }
+      }
     }
+
   }
 }
 
@@ -864,7 +968,19 @@ body {
     strong {
       font-family: $main-font;
       font-weight: 400;
-      color: #fff
+      color: #fff;
+      position: relative;
+      &::after {
+        height: 40px;
+        width: 3px;
+        background: #fff;
+        display: inline-block;
+        content: '';
+        margin-left: 2px;
+        transform: translate(0, 6px);
+        transition: all 0.3s ease-in-out;
+        animation: animAfterStrong 2s linear infinite;
+      }
     }
   }
 
@@ -876,14 +992,59 @@ body {
     line-height: 1;
     text-transform: uppercase;
     transition: all 0.3s ease-in-out;
+    position: relative;
+    &::before {
+      height: 2px;
+      right: 0;
+      bottom: 0;
+      width: 0;
+      background: $main-color;
+      display: inline-block;
+      content: '';
+      position: absolute;
+      transition: all 0.3s ease-in-out;
+
+    }
 
     &:hover {
       color: $main-color;
-      text-decoration: underline;
+      transition-delay: 0s;
+      &::before {
+        width: 100%;
+      }
     }
   }
 }
+@keyframes animAfterStrong {
+  0% {
+    opacity: 1;
 
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0;
+  }
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 .footer-bot {
   width: 100%;
   display: flex;
@@ -1036,10 +1197,27 @@ $class: var(--class);
     line-height: 1;
     text-transform: uppercase;
     display: inline-block;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+
+    &::before {
+      height: 2px;
+      right: 0;
+      bottom: 0;
+      width: 0;
+      background: $main-color;
+      display: inline-block;
+      content: '';
+      position: absolute;
+      transition: all 0.3s ease-in-out;
+
+    }
 
     &:hover {
-      text-decoration: underline;
       color: $main-color;
+      &::before {
+        width: 100%;
+      }
     }
   }
 }
@@ -1057,90 +1235,94 @@ body {
       background: $black;
     }
   }
-  .hero-cont {
-    & > * {
-      opacity: 0;
-      transition: all 0.6s ease-in-out;
-      @for $i from 1 through 3 {
-        &:nth-child(#{$i}) {
+  @media screen and (min-width: 920px) {
+
+
+    .hero-cont {
+      & > * {
+        opacity: 0;
+        transition: all 0.6s ease-in-out;
+        @for $i from 1 through 3 {
+          &:nth-child(#{$i}) {
             transition-delay: calc(0.2s * #{$i});
 
 
+          }
         }
       }
     }
-  }
 
-  .footer-head p {
-    opacity: 0;
-    transform: translate(-50%, 0);
-    transition: all 0.4s ease-in-out;
-    transition-delay: 0.5s;
-  }
-  .footer-head a {
-    opacity: 0;
-    transform: translate(60%, 0);
-    transition: all 0.4s ease-in-out;
-    transition-delay: 0.5s;
-  }
-  .sub-title {
-    opacity: 0;
-    transition: all 0.4s ease-in-out;
-    transition-delay: 0.5s;
-  }
-  .projects-block {
-    opacity: 0;
-    transition: all 0.5s ease-in-out;
-    transition-delay: 0.5s;
-  }
-  .detailed-cont {
-    .btn {
-      transform: translate(0, 50%);
+    .footer-head p {
       opacity: 0;
-      transition: all 0.5s ease-in-out;
-      transition-delay: 0.3s;
+      transform: translate(-50%, 0);
+      transition: all 0.4s ease-in-out;
+      transition-delay: 0.5s;
     }
-  }
-  .detailed-img {
-    opacity: 0;
-    transition: all 0.4s ease-in-out;
-    transition-delay: 0.4s;
-  }
-  .footer-left p {
-    color: rgba(187, 180, 167, 0);
-    transition: all 0.4s ease-in-out;
-    transform: translate(0, 130%);
-    @for $i from 1 through 4 {
-      &:nth-child(#{$i}) {
-        transition-delay: calc(0.21s * #{$i});
-      }
+    .footer-head a {
+      opacity: 0;
+      transform: translate(60%, 0);
+      transition: all 0.4s ease-in-out;
+      transition-delay: 0.5s;
     }
-  }
-  .contact-footer {
-    opacity: 0;
-    transition: all 0.5s ease-in-out;
-    @for $i from 1 through 4 {
-      &:nth-child(#{$i}) {
-        transition-delay: calc(0.21s * #{$i});
-      }
-    }
-  }
-  .footer-bot {
-    opacity: 0;
-    transform: translate(0, 100%);
-    transition: all 0.5s ease-in-out;
-    transition-delay: 0.5s;
-  }
-  .projects-list {
-    .btn-project {
-      transform: translate(80%, 0);
+    .sub-title {
       opacity: 0;
       transition: all 0.4s ease-in-out;
-      @for $i from 1 through 9 {
+      transition-delay: 0.5s;
+    }
+    .projects-block {
+      opacity: 0;
+      transition: all 0.5s ease-in-out;
+      transition-delay: 0.5s;
+    }
+    .detailed-cont {
+      .btn {
+        transform: translate(0, 50%);
+        opacity: 0;
+        transition: all 0.5s ease-in-out;
+        transition-delay: 0.3s;
+      }
+    }
+    .detailed-img {
+      opacity: 0;
+      transition: all 0.4s ease-in-out;
+      transition-delay: 0.4s;
+    }
+    .footer-left p {
+      color: rgba(187, 180, 167, 0);
+      transition: all 0.4s ease-in-out;
+      transform: translate(0, 130%);
+      @for $i from 1 through 4 {
         &:nth-child(#{$i}) {
+          transition-delay: calc(0.21s * #{$i});
+        }
+      }
+    }
+    .contact-footer {
+      opacity: 0;
+      transition: all 0.5s ease-in-out;
+      @for $i from 1 through 4 {
+        &:nth-child(#{$i}) {
+          transition-delay: calc(0.21s * #{$i});
+        }
+      }
+    }
+    .footer-bot {
+      opacity: 0;
+      transform: translate(0, 100%);
+      transition: all 0.5s ease-in-out;
+      transition-delay: 0.5s;
+    }
+    .projects-list {
+      .btn-project {
+        transform: translate(80%, 0);
+        opacity: 0;
+        transition: all 0.4s ease-in-out;
+        @for $i from 1 through 9 {
+          &:nth-child(#{$i}) {
             transition-delay: calc(0.09s * #{$i});
 
 
+          }
         }
       }
     }

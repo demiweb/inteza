@@ -212,6 +212,71 @@ function changeFooterLeft() {
 changeFooterLeft();
 // footer anim
 
+// footer word
+
+
+
+let searchTexts = [...document.querySelectorAll('.footer-head .text-for-placeholder li')];
+let iii = 0;
+let inputForPlace = document.querySelector('.footer-head > p strong');
+let speedType = 160;
+let speedDelete = 80;
+let placeInput = '';
+let wordNumber = 0;
+let wordEnd = false;
+
+
+
+function changePlaceholder() {
+    if (searchTexts.length) {
+        if (wordEnd === false) {
+            if (iii < searchTexts[wordNumber].innerHTML.length) {
+
+
+                placeInput += searchTexts[wordNumber].innerHTML.charAt(iii);
+                inputForPlace.innerHTML = placeInput;
+                iii++;
+            } else {
+                wordEnd = true;
+
+                iii = 0;
+            }
+            setTimeout(changePlaceholder, speedType);
+        } else {
+            if (placeInput === '') {
+                if (wordNumber === searchTexts.length - 1) {
+                    wordNumber = 0;
+                    wordEnd = false;
+                    iii = 0;
+                    // console.log(wordNumber);
+                    setTimeout(changePlaceholder, speedType);
+                }
+                else {
+                    wordNumber += 1;
+                    wordEnd = false;
+                    iii = 0;
+                    setTimeout(changePlaceholder, speedType);
+                }
+
+
+
+            } else {
+                // console.log('suda');
+                // console.log(searchTexts[wordNumber].innerHTML);
+                placeInput = placeInput.slice(0, -1);
+                inputForPlace.innerHTML = placeInput;
+                setTimeout(changePlaceholder, speedDelete);
+            }
+        }
+
+
+    }
+}
+
+changePlaceholder();
+
+// footer word
+
 $(window).scroll(function (e) {
     $el = $('.header');
     $el.toggleClass('header-fixed', $(this).scrollTop() > 32);
