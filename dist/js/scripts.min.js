@@ -334,6 +334,68 @@ window.onscroll = function () {
 
 //swipers
 
+let sitesSlider = [...document.querySelectorAll('.slider-other')];
+
+function startSitesSlider() {
+    if (!sitesSlider.length) {
+
+    } else {
+
+        sitesSlider.forEach((sld) => {
+            let sldCont = sld.querySelector('.swiper');
+            let sldNext = sld.querySelector('.slider-btn--next');
+            let sldPrev = sld.querySelector('.slider-btn--prev');
+            let pagin = sld.querySelector('.dots');
+            const swiper2 = new Swiper(sldCont, {
+                // Optional parameters
+                loop: true,
+
+                slidesPerView: 3,
+                slidesPerGroup: 1,
+                speed: 800,
+                crossFade: true,
+                followFinger: true,
+                allowTouchMove: true,
+                threshold: true,
+                touchMoveStopPropagation: true,
+                touchStartPreventDefault: true,
+                touchStartForcePreventDefault: true,
+                touchReleaseOnEdges: true,
+
+                resistance: true,
+                resistanceRatio: 0.3,
+
+                // cssMode: true,
+                navigation: {
+                    nextEl: sldNext,
+                    prevEl: sldPrev,
+                },
+                autoplay: false,
+                spaceBetween: 20,
+
+                pagination: false,
+                breakpoints: {
+                    1025: {
+                        slidesPerView: 4,
+                        slidesPerGroup: 1,
+                    }
+                }
+
+
+            });
+
+
+        })
+
+
+    }
+}
+
+startSitesSlider();
+
+
+//swipers
+
 
 var burger = [...document.querySelectorAll('.burger')];
 var header = document.querySelector('.header');
@@ -504,7 +566,9 @@ function changeTab() {
 
     } else {
         tabBtn.forEach((btn, k) => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 if (btn.classList.contains('active')) {
 
                 } else {
@@ -592,4 +656,62 @@ function changeProject() {
 
 changeProject();
 //tabs
+
+
+//steps
+
+let initialStep = 0;
+let stepsList = [...document.querySelectorAll('.steps-list > span')];
+
+function controlSteps() {
+    if (stepsList.length) {
+        stepsList.forEach((btn) => {
+
+
+        });
+
+        setInterval(() => {
+            stepsList.forEach((btn) => {
+                btn.classList.remove('active');
+            });
+            stepsList[initialStep].classList.add('active');
+
+            initialStep++;
+            if (initialStep === stepsList.length) {
+                initialStep = 0;
+            } else {
+
+            }
+
+        }, 2500);
+    }
+}
+
+controlSteps();
+//steps
+
+//techs
+let initialTech = 0;
+
+let techsList = [...document.querySelectorAll('.techs-list > li')];
+
+function techsControl() {
+    if (techsList.length) {
+        techsList.forEach((btn, k) => {
+            btn.addEventListener('mouseover', () => {
+                techsList.forEach((btn2) => {
+                    btn2.classList.remove('active');
+                    [...btn2.closest('.hero-techs').querySelectorAll('.techs-bg .bg')].forEach((bg) => {
+                        bg.classList.remove('active');
+                    })
+                });
+
+                btn.classList.add('active');
+                [...btn.closest('.hero-techs').querySelectorAll('.techs-bg .bg')][k].classList.add('active');
+            })
+        })
+    }
+}
+techsControl();
+//techs
 
