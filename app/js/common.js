@@ -460,19 +460,36 @@ function startPhotosSlider() {
 startPhotosSlider();
 
 
-let projectsSlider = [...document.querySelectorAll('.projects-cont .item-tab')];
+let projectsSlider = [...document.querySelectorAll('.projects-owner')];
 
 function startProjectsSlider() {
     if (!projectsSlider.length) {
 
     } else {
-        let bgImage = document.querySelector('.hero-projects .projects-bg .bg img');
 
         projectsSlider.forEach((sld) => {
-            let sldCont = sld.querySelector('.swiper');
+            let sldCont = sld.querySelector('.projects-cont .item-tab .swiper');
             let sldNext = sld.querySelector('.slider-btn--next');
             let sldPrev = sld.querySelector('.slider-btn--prev');
+            let sldThumb = sld.querySelector('.projects-bg-slider .swiper');
             let pagin = sld.querySelector('.dots');
+
+
+            var swiperThumb = new Swiper(sldThumb, {
+                spaceBetween: 10,
+                slidesPerView: 1,
+                slidesPerGroup: 1,
+                freeMode: false,
+                watchSlidesProgress: true,
+                direction: 'vertical',
+                centeredSlides: false,
+                loop: true,
+                draggable: true,
+                effect: 'fade',
+
+
+
+            });
 
             const swiper2 = new Swiper(sldCont, {
                 // Optional parameters
@@ -480,7 +497,7 @@ function startProjectsSlider() {
 
                 slidesPerView: 1,
                 slidesPerGroup: 1,
-                speed: 800,
+                speed: 900,
                 crossFade: true,
                 followFinger: true,
                 allowTouchMove: true,
@@ -510,20 +527,14 @@ function startProjectsSlider() {
                     currentClass: 'current',
                     spaceBetween: 2,
                 },
-
+                thumbs: {
+                    swiper: swiperThumb,
+                },
 
 
             });
 
-            swiper2.on('transitionEnd', function() {
-                let sldIndex = swiper2.realIndex;
-                let slde = swiper2.slides[sldIndex];
-                let image = slde.querySelector('.project-right .img img').src;
-                // console.log(image);
-                // console.log(bgImage);
-                bgImage.src = image;
 
-            });
 
 
         })
